@@ -1,8 +1,26 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import { QueryClient, useQuery, QueryClientProvider } from "react-query";
+import axios from "axios";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+const queryClient = new QueryClient();
+
+function MyApp() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+    </QueryClientProvider>
+  );
 }
 
-export default MyApp
+function Example() {
+  const pokemonsList = useQuery(
+    "pokemonListKey",
+    axios.create({ method: "get", url: "https://pokeapi.co/api/v2/" })
+  );
+
+  console.log(pokemonsList);
+
+  return <h1>hello world</h1>;
+}
+
+export default MyApp;
