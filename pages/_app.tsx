@@ -13,14 +13,13 @@ function MyApp() {
 }
 
 function Example() {
-  const pokemonsList = useQuery(
-    "pokemonListKey",
-    axios.create({ method: "get", url: "https://pokeapi.co/api/v2/" })
+  const { data } = useQuery("pokemonListKey", () =>
+    axios.get("https://pokeapi.co/api/v2/pokemon")
   );
 
-  console.log(pokemonsList);
+  console.log(data?.data);
 
-  return <h1>hello world</h1>;
+  return <>{data && <h1>{data}</h1>}</>;
 }
 
 export default MyApp;
